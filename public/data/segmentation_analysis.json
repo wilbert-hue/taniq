@@ -1,28 +1,55 @@
 {
   "Global": {
-    "By Type": {
-      "Sub-Normothermic Perfusion (20–34°C)": {},
-      "Warm or Normothermic Perfusion (35–37°C)": {}
+    "By Product Type": {
+      "Rubber Expansion Joints": {
+        "Single Arch Rubber Expansion Joints": {},
+        "Double Arch Rubber Expansion Joints": {},
+        "Multiple Arch Rubber Expansion Joints": {},
+        "Spherical and Twin-Sphere Flexible Connectors": {},
+        "Reducing / Eccentric Rubber Expansion Joints": {},
+        "Large-Diameter and Custom-Engineered Rubber Expansion Joints": {}
+      },
+      "Inflatable Pipe Plugs": {
+        "Standard Cylindrical Inflatable Pipe Plugs": {},
+        "Conical Inflatable Pipe Plugs": {},
+        "Bypass / Flow-Through Pipe Plugs": {},
+        "High-Pressure Testing Pipe Plugs": {},
+        "Oil & Gas Pipeline Isolation Plugs": {},
+        "Municipal Sewer and Wastewater Pipe Plugs": {},
+        "Custom Plugs": {}
+      },
+      "Pinch Valve Sleeves": {
+        "Standard Pinch Valve Sleeves": {},
+        "Heavy-Duty Abrasion-Resistant Sleeves": {},
+        "Chemical-Resistant Sleeves": {},
+        "Food-Grade": {},
+        "High-Pressure Pinch Valve Sleeves": {},
+        "Large-Diameter and Custom OEM Sleeves": {}
+      }
     },
-    "By Organ Type": {
-      "Liver": {},
-      "Heart": {},
-      "Lung": {},
-      "Kidney": {},
-      "Others (Pancreas, Small bowel / Intestine, Composite Tissues / Limb Perfusion (emerging use cases))": {}
+    "By Elastomer Type": {
+      "Natural Rubber": {},
+      "EPDM Rubber": {},
+      "Nitrile Rubber": {},
+      "Neoprene": {},
+      "Butyl Rubber": {},
+      "Silicone Rubber": {},
+      "FKM / Specialty Elastomers": {},
+      "Other Custom Compounds": {}
     },
-    "Application / Use Case": {
-      "Organ Preservation": {},
-      "Viability Assessment": {},
-      "Physiologic Transport": {},
-      "Reconditioning Marginal Organs": {},
-      "Others (Research Use / Protocol development)": {}
+    "By Reinforcement Type": {
+      "Non-reinforced Rubber Products": {},
+      "Fabric-reinforced Rubber Products": {},
+      "Cord-reinforced Rubber Products": {},
+      "Metal-reinforced Rubber Products": {},
+      "Hybrid-reinforced Rubber Products": {}
     },
-    "By End User": {
-      "Hospitals & Clinics": {},
-      "Specialty Clinic/Centers": {},
-      "Transplant Centers": {},
-      "Others (Research Institutes/Centers, Organ Procurement Organizations, etc.)": {}
+    "By Pressure Rating": {
+      "Low-Pressure Products": {},
+      "Medium-Pressure Products": {},
+      "High-Pressure Products": {},
+      "Vacuum / Negative-Pressure Compatible Products": {},
+      "Custom Pressure-Rated Products": {}
     },
     "By Region": {
       "North America": {

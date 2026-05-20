@@ -19,28 +19,46 @@ export function getTopRegionsByMarketValue(
 ): string[] {
   if (!data) return []
 
+  // Only consider region-level geographies (not country-level sub-components).
+  // Country-level geographies (U.S., Canada, U.K., etc.) are sub-sets of their
+  // parent regions. Including both a region AND one of its countries in the same
+  // preset would cause the country records to be merged into the parent bar,
+  // making it appear as though fewer geographies are shown in the chart.
+  const regionGeographies = new Set<string>(data.dimensions.geographies.regions)
+  const countryGeographies = new Set<string>(
+    Object.values(data.dimensions.geographies.countries).flat()
+  )
+
+  // Eligible geographies: regions (not countries, not Global)
+  // Fall back to all non-Global geographies when no region metadata is available.
+  const hasRegions = regionGeographies.size > 0
+  const isEligible = (geo: string): boolean => {
+    if (geo === 'Global') return false
+    if (hasRegions) {
+      // Accept regions; skip pure-country geographies
+      return regionGeographies.has(geo) || (!countryGeographies.has(geo))
+    }
+    return true
+  }
+
   // Get all value data records
   const records = data.data.value.geography_segment_matrix
 
   // Calculate total market value by geography for the specified year
-  // Treat all geographies as single entities - aggregate by name
   const geographyTotals = new Map<string, number>()
 
   records.forEach((record: DataRecord) => {
     const geography = record.geography
+    if (!isEligible(geography)) return
+
     const value = record.time_series[year] || 0
-
-    // Skip global level
-    if (geography === 'Global') return
-
-    // Treat all geographies as single entities - aggregate by name
     const currentTotal = geographyTotals.get(geography) || 0
     geographyTotals.set(geography, currentTotal + value)
   })
 
   // Sort geographies by total value and get top N
   const sortedGeographies = Array.from(geographyTotals.entries())
-    .sort((a, b) => b[1] - a[1]) // Sort by value descending
+    .sort((a, b) => b[1] - a[1])
     .slice(0, topN)
     .map(([geography]) => geography)
 
@@ -110,20 +128,28 @@ export function getTopRegionsByCAGR(
 ): string[] {
   if (!data) return []
 
+  // Only consider region-level geographies to avoid selecting both a region and
+  // one of its constituent countries (which would cause bars to merge in the chart).
+  const regionGeographies = new Set<string>(data.dimensions.geographies.regions)
+  const countryGeographies = new Set<string>(
+    Object.values(data.dimensions.geographies.countries).flat()
+  )
+  const hasRegions = regionGeographies.size > 0
+  const isEligible = (geo: string): boolean => {
+    if (geo === 'Global') return false
+    if (hasRegions) return regionGeographies.has(geo) || !countryGeographies.has(geo)
+    return true
+  }
+
   // Get all value data records
   const records = data.data.value.geography_segment_matrix
 
-  // Calculate average CAGR for each geography
-  // Treat all geographies as single entities - aggregate by name
   const geographyCAGRs = new Map<string, number[]>()
 
   records.forEach((record: DataRecord) => {
     const geography = record.geography
+    if (!isEligible(geography)) return
 
-    // Skip global level
-    if (geography === 'Global') return
-
-    // Treat all geographies as single entities - aggregate by name
     if (record.cagr !== undefined && record.cagr !== null) {
       const cagrs = geographyCAGRs.get(geography) || []
       cagrs.push(record.cagr)
@@ -131,15 +157,13 @@ export function getTopRegionsByCAGR(
     }
   })
 
-  // Calculate average CAGR for each geography
   const avgCAGRs = Array.from(geographyCAGRs.entries()).map(([geography, cagrs]) => ({
     geography,
     avgCAGR: cagrs.reduce((a, b) => a + b, 0) / cagrs.length
   }))
 
-  // Sort geographies by average CAGR and get top N
   const sortedGeographies = avgCAGRs
-    .sort((a, b) => b.avgCAGR - a.avgCAGR) // Sort by CAGR descending
+    .sort((a, b) => b.avgCAGR - a.avgCAGR)
     .slice(0, topN)
     .map(item => item.geography)
 
